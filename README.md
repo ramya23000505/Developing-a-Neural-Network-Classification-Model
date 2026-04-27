@@ -1,5 +1,5 @@
 # Developing a Neural Network Classification Model
-
+### Date: 27-04-2026
 ## AIM
 To develop a neural network classification model for the given dataset.
 
@@ -42,42 +42,69 @@ Write your own steps
 
 ## PROGRAM
 
-### Name:
+### Name: RAMYA R
 
-### Register Number:
+### Register Number: 212223230169
 
 ```python
+# Define Neural Network(Model1)
 class PeopleClassifier(nn.Module):
     def __init__(self, input_size):
         super(PeopleClassifier, self).__init__()
         #Include your code here
-
-
+        self.fc1 = nn.Linear(input_size,32)
+        self.fc2 = nn.Linear(32,16)
+        self.fc3 = nn.Linear(16,8)
+        self.fc4 = nn.Linear(8,4)
 
     def forward(self, x):
-        #Include your code here
+      #Include your code here
+      x = F.relu(self.fc1(x))
+      x = F.relu(self.fc2(x))
+      x = F.relu(self.fc3(x))
+      x = self.fc4(x)
+      return x
         
-# Initialize the Model, Loss Function, and Optimizer
+# Initialize model
+model = PeopleClassifier(input_size = X_train.shape[1])
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+# Training Loop
 def train_model(model, train_loader, criterion, optimizer, epochs):
-    #Include your code here
+  #Include your code here
+  model.train()
+  for epoch in range(epochs):
+    for inputs, labels in train_loader:
+      optimizer.zero_grad()
+      outputs = model(inputs)
+      loss = criterion(outputs,labels)
+      loss.backward()
+      optimizer.step()
+
+    if (epoch + 1) % 10 == 0:
+        print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')
 
 ```
 
 ### Dataset Information
-Include screenshot of the dataset.
+<img width="1364" height="264" alt="image" src="https://github.com/user-attachments/assets/2aaeb473-77ed-46d1-a194-dcc788f8d0c5" />
+
 
 ### OUTPUT
 
 ## Confusion Matrix
 
-Include confusion matrix here
+<img width="703" height="596" alt="image" src="https://github.com/user-attachments/assets/5b9afe20-46b8-4a92-975c-a5e34c497924" />
+
 
 ## Classification Report
-Include classification report here
+<img width="748" height="450" alt="image" src="https://github.com/user-attachments/assets/00e6bd83-b2d4-4a69-a67d-a79c4a76d6f3" />
+
 
 ### New Sample Data Prediction
-Include your sample input and output here
+<img width="474" height="105" alt="image" src="https://github.com/user-attachments/assets/ead51a45-8356-4fed-a883-4b9ab58b8c51" />
+
 
 ## RESULT
 Include your result here
